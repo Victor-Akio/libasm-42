@@ -6,7 +6,7 @@
 /*   By: vminomiy <vminomiy@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 19:05:16 by vminomiy          #+#    #+#             */
-/*   Updated: 2020/09/02 09:33:48 by vminomiy         ###   ########.fr       */
+/*   Updated: 2020/09/02 19:23:42 by vminomiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,29 @@ int			ft_strcmp_t(char *s1, char *s2)
 	return (1);
 }
 
+int			ft_write_t(char *str)
+{
+	int			pipeline[2];
+	char		buf[BUFFER_SIZE];
+	int			ret;
+
+	bzero(buf, BUFFER_SIZE);
+	if (pipe(pipeline) < 0)
+		exit(EXIT_FAILURE);
+	fcntl(pipeline[0], F_SETFL, O_NONBLOCK);
+	write(pipeline[1], str, strlen(str));
+	ret = read(pipeline[0], buf, BUFFER_SIZE);
+	printf("write : \"%s\" / ft_write : \"%s\"\n", str, buf);
+	buf[ret] = '\0';
+	if (!strcmp(buf, str))
+		printf("" PASS "[OK]\n " RESET "");
+	else
+		printf("" FAIL "[KO]\n " RESET "");
+	close(pipeline[1]);
+	close(pipeline[0]);
+	return (1);
+}
+
 int			main(void)
 {
 	/*
@@ -94,5 +117,16 @@ int			main(void)
 	ft_strcmp_t("", "");
 	ft_strcmp_t(" ", " ");
 	ft_strcmp_t("Hellow\0 World!", " crazy");
+	printf("\n\n");
+
+	/*
+	** ft_write
+	*/
+	ft_write_t("Hellow World!");
+	ft_write_t("42");
+	ft_write_t("    ");
+	ft_write_t("");
+	ft_write_t("Hellow \tworld!");
+	ft_write_t("Hellow\0World");
 	printf("\n\n");
 }
