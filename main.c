@@ -6,11 +6,11 @@
 /*   By: vminomiy <vminomiy@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 19:05:16 by vminomiy          #+#    #+#             */
-/*   Updated: 2020/09/02 19:23:42 by vminomiy         ###   ########.fr       */
+/*   Updated: 2020/09/02 22:39:44 by vminomiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libasm.h"
+#include "./libasm.h"
 
 int			ft_strlen_t(char *str)
 {
@@ -59,6 +59,11 @@ int			ft_strcmp_t(char *s1, char *s2)
 	return (1);
 }
 
+/*
+** F_SETFL - Set the file descriptor flags to the value specified by arg.
+** O_NONBLOCK - if specified, open will return immediately without a carrier. 
+** pipe - This creates both the reading and writing ends of the pipe. 
+*/
 int			ft_write_t(char *str)
 {
 	int			pipeline[2];
@@ -71,14 +76,54 @@ int			ft_write_t(char *str)
 	fcntl(pipeline[0], F_SETFL, O_NONBLOCK);
 	write(pipeline[1], str, strlen(str));
 	ret = read(pipeline[0], buf, BUFFER_SIZE);
-	printf("write : \"%s\" / ft_write : \"%s\"\n", str, buf);
 	buf[ret] = '\0';
+	printf("write : \"%s\" / ft_write : \"%s\"\n", str, buf);
 	if (!strcmp(buf, str))
 		printf("" PASS "[OK]\n " RESET "");
 	else
 		printf("" FAIL "[KO]\n " RESET "");
 	close(pipeline[1]);
 	close(pipeline[0]);
+	return (1);
+}
+
+int			ft_read_t(char *str)
+{
+	int		pipeline[2];
+	char	buf[BUFFER_SIZE];
+	int		ret;
+
+	bzero(buf, BUFFER_SIZE);
+	if (pipe(pipeline) < 0)
+		exit(EXIT_FAILURE);
+	fcntl(pipeline[0], F_SETFL, O_NONBLOCK);
+	write(pipeline[1], str, strlen(str));
+	ret = ft_read(pipeline[0], buf, BUFFER_SIZE);
+	buf[ret] = '\0';
+	printf("str : \"%s\" / What was read : \"%s\"\n", str, buf);
+	if (!strcmp(buf, str))
+		printf("" PASS "[OK]\n " RESET "");
+	else
+		printf("" FAIL "[KO]\n " RESET "");
+	close(pipeline[1]);
+	close(pipeline[0]);
+	return (1);
+}
+
+int			ft_strdup_t(char *str)
+{
+	char	*s1;
+	char	*s2;
+
+	s1 = ft_strdup(str);
+	s2 = strdup(str);
+	printf("strdup : \"%s\" / ft_strdup : \"%s\"\n", s2, s1);
+	if (!strcmp(s1, s2))
+		printf("" PASS "[OK]\n " RESET "");
+	else
+		printf("" FAIL "[KO]\n " RESET "");
+	free(s1);
+	free(s2);
 	return (1);
 }
 
@@ -128,5 +173,27 @@ int			main(void)
 	ft_write_t("");
 	ft_write_t("Hellow \tworld!");
 	ft_write_t("Hellow\0World");
+	printf("\n\n");
+
+	/*
+	** ft_read
+	*/
+	ft_read_t("Hellow World!");
+	ft_read_t("42");
+	ft_read_t("    ");
+	ft_read_t("");
+	ft_read_t("Hellow \tworld!");
+	ft_read_t("Hellow\0World");
+	printf("\n\n");
+
+	/*
+	** ft_strdup
+	*/
+	ft_strdup_t("Hellow World!");
+	ft_strdup_t("42");
+	ft_strdup_t("    ");
+	ft_strdup_t("");
+	ft_strdup_t("Hellow \tworld!");
+	ft_strdup_t("Hellow\0World");
 	printf("\n\n");
 }
