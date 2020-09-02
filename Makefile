@@ -6,7 +6,7 @@
 #    By: vminomiy <vminomiy@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/01 18:26:03 by vminomiy          #+#    #+#              #
-#    Updated: 2020/09/02 01:49:39 by vminomiy         ###   ########.fr        #
+#    Updated: 2020/09/02 06:58:15 by vminomiy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CC		=	nasm
 
 FLAGS	=	-f elf64
 
-SRCS	=	ft_strlen.s
+SRCS	=	ft_strlen.s		\
+			ft_strcpy.s		\
+			ft_strcmp.s
 
 OBJS	=	$(patsubst %.s, %.o, ${SRCS})
 

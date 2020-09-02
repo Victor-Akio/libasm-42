@@ -6,7 +6,7 @@
 /*   By: vminomiy <vminomiy@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 22:28:57 by vminomiy          #+#    #+#             */
-/*   Updated: 2020/09/01 23:41:55 by vminomiy         ###   ########.fr       */
+/*   Updated: 2020/09/02 07:09:03 by vminomiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@
 # define BUFFER_SIZE 256
 
 size_t		ft_strlen(const char *s);
+char		*ft_strcpy(char *dest, const char *src);
+int			ft_strcmp(const char *s1, const char *s2);
+
 
 #endif
