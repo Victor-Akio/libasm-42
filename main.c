@@ -6,7 +6,7 @@
 /*   By: vminomiy <vminomiy@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 19:05:16 by vminomiy          #+#    #+#             */
-/*   Updated: 2020/09/02 22:39:44 by vminomiy         ###   ########.fr       */
+/*   Updated: 2020/09/08 21:07:54 by vminomiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int			ft_strlen_t(char *str)
 	ret2 = strlen(str);
 	printf("strlen : %d / ft_strlen : %d\n", ret1, ret2);
 	if (ret1 == ret2)
-		printf("" PASS "[OK]\n " RESET "");
+		printf("" PASS "[OK]\n" RESET "");
 	else
-		printf("" FAIL "[KO]\n " RESET "");
+		printf("" FAIL "[KO]\n" RESET "");
 	return (1);
 }
 
@@ -38,9 +38,9 @@ int			ft_strcpy_t(char *src)
 	strcpy(dst2, src);
 	printf("strcpy : %s / ft_strcpy : %s\n", dst2, dst1);
 	if (!strcmp(dst1, dst2))
-		printf("" PASS "[OK]\n " RESET "");
+		printf("" PASS "[OK]\n" RESET "");
 	else
-		printf("" FAIL "[KO]\n " RESET "");
+		printf("" FAIL "[KO]\n" RESET "");
 	return (1);
 }
 
@@ -53,9 +53,9 @@ int			ft_strcmp_t(char *s1, char *s2)
 	ret2 = strcmp(s1, s2);
 	printf("strcmp : %d / ft_strcmp : %d\n", ret1, ret2);
 	if ((ret1 > 0 && ret2 > 0) || (ret1 < 0 && ret2 < 0) || (ret1 == 0 && ret2 == 0))
-		printf("" PASS "[OK]\n " RESET "");
+		printf("" PASS "[OK]\n" RESET "");
 	else
-		printf("" FAIL "[KO]\n " RESET "");
+		printf("" FAIL "[KO]\n" RESET "");
 	return (1);
 }
 
@@ -77,11 +77,16 @@ int			ft_write_t(char *str)
 	write(pipeline[1], str, strlen(str));
 	ret = read(pipeline[0], buf, BUFFER_SIZE);
 	buf[ret] = '\0';
+	errno = 0;
+	printf("%d\n", errno);
 	printf("write : \"%s\" / ft_write : \"%s\"\n", str, buf);
+	//write(42, "Error tester\n", 13);
+	printf("%d\n", errno);
+	//printf("write_len : \"%zi\" / ft_write_len : \"%zi\"\n", write(1, str, strlen(str)), ft_write(1, buf, strlen(buf)));
 	if (!strcmp(buf, str))
-		printf("" PASS "[OK]\n " RESET "");
+		printf("" PASS "[OK]\n" RESET "");
 	else
-		printf("" FAIL "[KO]\n " RESET "");
+		printf("" FAIL "[KO]\n" RESET "");
 	close(pipeline[1]);
 	close(pipeline[0]);
 	return (1);
@@ -102,9 +107,9 @@ int			ft_read_t(char *str)
 	buf[ret] = '\0';
 	printf("str : \"%s\" / What was read : \"%s\"\n", str, buf);
 	if (!strcmp(buf, str))
-		printf("" PASS "[OK]\n " RESET "");
+		printf("" PASS "[OK]\n" RESET "");
 	else
-		printf("" FAIL "[KO]\n " RESET "");
+		printf("" FAIL "[KO]\n" RESET "");
 	close(pipeline[1]);
 	close(pipeline[0]);
 	return (1);
@@ -119,9 +124,9 @@ int			ft_strdup_t(char *str)
 	s2 = strdup(str);
 	printf("strdup : \"%s\" / ft_strdup : \"%s\"\n", s2, s1);
 	if (!strcmp(s1, s2))
-		printf("" PASS "[OK]\n " RESET "");
+		printf("" PASS "[OK]\n" RESET "");
 	else
-		printf("" FAIL "[KO]\n " RESET "");
+		printf("" FAIL "[KO]\n" RESET "");
 	free(s1);
 	free(s2);
 	return (1);

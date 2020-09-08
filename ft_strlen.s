@@ -9,9 +9,9 @@ segment .text
 
 ; size_t	ft_strlen(char *);
 ft_strlen:
-		mov rax, -1				; i = -1
+		mov rax, -1				; i = -1 / move the value -1 to RAX
 loop:
-		inc rax					; i++;
+		inc rax					; i++ / this will set the first position to str[0]
 		cmp BYTE [rdi + rax], 0	; compare str[rax] with '\0'
-		jne loop				; while loop
+		jne loop				; if met, it will keep in the loop
 		ret						; return rax
