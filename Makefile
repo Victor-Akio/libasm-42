@@ -51,7 +51,7 @@ fclean	:	clean
 
 re		:	fclean all
 
-test	:	$(NAME) main.c
-			clang -g -no-pie -Werror -Wextra -Wall main.c $(NAME) -I ./libasm.h -o tester
+test	:	all main.c
+			clang -g -no-pie -Werror -Wextra -Wall main.c -L./ -lasm -I ./libasm.h -o tester
 
 .PHONY	:	all re clean fclean test
